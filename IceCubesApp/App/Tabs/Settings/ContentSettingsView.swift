@@ -100,12 +100,26 @@ struct ContentSettingsView: View {
           Text("settings.content.default-sensitive")
         }
         .disabled(userPreferences.useInstanceContentSettings)
-      }
-
-      .listRowBackground(theme.primaryBackgroundColor)
+      }.listRowBackground(theme.primaryBackgroundColor)
+        
+        Section("settings.content.timeline") {
+            VStack {
+                Slider(value: $userPreferences.appDefaultTimelineMinReblogsCount.float(), in: 0...50, step: 1)
+                Text("settings.content.min-reblog-visibility-\(userPreferences.appDefaultTimelineMinReblogsCount)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.scaledBody)
+            }
+        }
     }
     .navigationTitle("settings.content.navigation-title")
     .scrollContentBackground(.hidden)
     .background(theme.secondaryBackgroundColor)
   }
+}
+
+private extension Binding where Value == Int {
+    func float() -> Binding<Float> {
+        return Binding<Float>(get:{ Float(self.wrappedValue) },
+            set: { self.wrappedValue = Int($0)})
+    }
 }

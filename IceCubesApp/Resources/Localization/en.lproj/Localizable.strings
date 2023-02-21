@@ -127,6 +127,7 @@
 "settings.content.default-sensitive" = "Always Mark Media as Sensitive";
 "settings.content.default-visibility" = "Posting Visibility";
 "settings.content.default-reply-visibility" = "Reply Visibility";
+"settings.content.min-reblog-visibility-%lld" = "Hide posts with less than %lld boosts";
 "settings.content.media" = "Media";
 "settings.content.media.show.alt" = "Show ALT Texts";
 "settings.content.reading" = "Reading";
@@ -135,6 +136,7 @@
 "settings.content.sharing.share-button-behavior" = "Share Button Behavior";
 "settings.content.sharing.share-behavior.link-only" = "Link Only";
 "settings.content.sharing.share-behavior.link-and-text" = "Link and Text";
+"settings.content.timeline" = "Timeline";
 "enum.expand-media.show" = "Show All";
 "enum.expand-media.hide" = "Hide All";
 "enum.expand-media.hide-sensitive" = "Hide Sensitive";

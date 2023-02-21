@@ -7,6 +7,7 @@ import SwiftUI
 
 public struct StatusesListView<Fetcher>: View where Fetcher: StatusesFetcher {
   @EnvironmentObject private var theme: Theme
+  @EnvironmentObject private var userPreferences: UserPreferences
 
   @ObservedObject private var fetcher: Fetcher
   // Whether this status is on a remote local timeline (many actions are unavailable if so)
@@ -45,21 +46,33 @@ public struct StatusesListView<Fetcher>: View where Fetcher: StatusesFetcher {
       .listRowSeparator(.hidden)
 
     case let .display(statuses, nextPageState):
-      ForEach(statuses, id: \.viewId) { status in
-        StatusRowView(viewModel: { StatusRowViewModel(status: status,
-                                                      client: client,
-                                                      routerPath: routerPath,
-                                                      isRemote: isRemote)
+        ForEach(statuses, id: \.viewId) { status in
+            if status.reblogsCount < userPreferences.appDefaultTimelineMinReblogsCount {
+                EmptyView()
+                    .id(status.id)
+                    .onAppear {
+                      fetcher.statusDidAppear(status: status)
+                    }
+                    .onDisappear {
+                      fetcher.statusDidDisappear(status: status)
+                    }
+            } else {
+                StatusRowView(viewModel: { StatusRowViewModel(status: status,
+                                                              client: client,
+                                                              routerPath: routerPath,
+                                                              isRemote: isRemote)
 
-          })
-          .id(status.id)
-          .onAppear {
-            fetcher.statusDidAppear(status: status)
-          }
-          .onDisappear {
-            fetcher.statusDidDisappear(status: status)
-          }
-      }
+                  })
+                  .id(status.id)
+                  .onAppear {
+                    fetcher.statusDidAppear(status: status)
+                  }
+                  .onDisappear {
+                    fetcher.statusDidDisappear(status: status)
+                  }
+            }
+        }
+        
       switch nextPageState {
       case .hasNextPage:
         loadingRow
