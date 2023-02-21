@@ -59,7 +59,7 @@ public struct IceCubeLight: ColorSet {
   public var tintColor: Color = .init(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
   public var primaryBackgroundColor: Color = .white
   public var secondaryBackgroundColor: Color = .init(hex: 0xF0F1F2)
-  public var labelColor: Color = .black
+  public var labelColor: Color = .init(red: 60 / 255, green: 60 / 255, blue: 60 / 255)
 
   public init() {}
 }
